@@ -1,0 +1,11 @@
+<nav>
+    <ul>
+      <li *ngIf="!isAuthenticated"><a routerLink="/login">Login</a></li>
+      <li *ngIf="!isAuthenticated"><a routerLink="/register">Register</a></li>
+      <li *ngIf="isAuthenticated"><a routerLink="/product">Products</a></li>
+      <li *ngIf="isAuthenticated && (userRole === 'Manager' || userRole === 'Capturer')"><a routerLink="/createproduct">Create Product</a></li>
+      <li *ngIf="isAuthenticated && userRole === 'Manager'"><a routerLink="/manageproduct">Manage Products</a></li>
+      <li *ngIf="isAuthenticated"><a (click)="logout()">Logout</a></li>
+    </ul>
+  </nav>
+  
