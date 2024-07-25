@@ -16,8 +16,8 @@ export class LoginComponent implements OnInit {
   constructor(private authService: AuthService, private router: Router) {}
 
   ngOnInit(): void {
-    localStorage.clear;
-    
+    this.authService.logout();
+    this.authService.handleGitHubCallback(); // Handle GitHub callback on initialization
   }
 
   login() {
