@@ -1,1 +1,41 @@
-<p>product-list works!</p>
+<div *ngIf="products.length > 0; else noProducts">
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Description</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let product of products">
+          <td>
+            <ng-container *ngIf="isEditing(product.id); else viewMode">
+              <input [(ngModel)]="editedProduct[product.id].name" />
+            </ng-container>
+            <ng-template #viewMode>{{ product.name }}</ng-template>
+          </td>
+          <td>
+            <ng-container *ngIf="isEditing(product.id); else viewMode">
+              <input [(ngModel)]="editedProduct[product.id].description" />
+            </ng-container>
+            <ng-template #viewMode>{{ product.description }}</ng-template>
+          </td>
+          <td>
+            <ng-container *ngIf="isEditing(product.id); else editMode">
+              <button (click)="saveProduct(product.id)">Save</button>
+              <button (click)="cancelEdit(product.id)">Cancel</button>
+            </ng-container>
+            <ng-template #editMode>
+              <button (click)="startEdit(product.id)">Edit</button>
+            </ng-template>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  
+  <ng-template #noProducts>
+    <p>No products available.</p>
+  </ng-template>
+  

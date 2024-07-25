@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { JwtHelperService } from '@auth0/angular-jwt';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -11,13 +12,11 @@ export class AuthService {
   private apiUrl = 'https://localhost:5001/api/Account';
   private jwtHelper = new JwtHelperService();
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private router: Router) {}
 
   register(model: any): Observable<any> {
     return this.http.post(`${this.apiUrl}/register`, model);
   }
-
-  
 
   login(model: any): Observable<any> {
     return this.http.post<any>(`${this.apiUrl}/login`, model).pipe(
@@ -32,38 +31,29 @@ export class AuthService {
 
   githubLogin(): void {
     window.location.href = 'https://localhost:5001/api/Account/github-login';
-}
+  }
 
-handleGitHubCallback(): void {
+  handleGitHubCallback(): void {
     const token = this.extractTokenFromUrl();
     if (token) {
-        localStorage.setItem('token', token);
-        console.log("Handle GitHub callback works");
-        console.log(this.getRole());
+      localStorage.setItem('token', token);
+      this.router.navigate(['/product']); 
     }
-    
-}
+  }
 
-private extractTokenFromUrl(): string | null {
+  private extractTokenFromUrl(): string | null {
     const params = new URLSearchParams(window.location.search);
     return params.get('token');
-}
-
+  }
 
   isAuthenticated(): boolean {
     const token = localStorage.getItem('token');
-    // Here we assume token expiration checking is skipped for simplicity
-    return !!token;
+    return !!token && !this.jwtHelper.isTokenExpired(token);
   }
 
   getToken(): string {
     return localStorage.getItem('token') || '';
   }
-
-  //getAuthHeaders(): HttpHeaders {
-    //const token = this.getToken();
-    //return new HttpHeaders().set('Authorization', `Bearer ${token}`);
-  //}
 
   getRole(): string | null {
     const token = localStorage.getItem('token');
