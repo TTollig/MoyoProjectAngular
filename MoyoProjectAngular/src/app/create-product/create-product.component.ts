@@ -47,7 +47,8 @@ export class CreateProductComponent implements OnInit {
     this.http.post('https://localhost:5001/api/product/AddProduct', productObj).subscribe(
       (res: any) => {
         if (res) {
-          this.snackBar.open(`${productObj.productName} created successfully`, 'Close', {
+          console.log(productObj);
+          this.snackBar.open(`${productObj.name} successfully sent for approval`, 'Close', {
             duration: 3000
           });
           this.router.navigateByUrl('/product');
