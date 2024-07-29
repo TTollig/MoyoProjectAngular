@@ -1,19 +1,45 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy, ChangeDetectorRef, OnInit } from '@angular/core';
 import { AuthService } from '../auth.service';
-import { Router } from '@angular/router';
-import { CommonModule } from '@angular/common';
+import { Router, RouterLink, RouterOutlet } from '@angular/router';
+import { NgIf } from '@angular/common';
+import { MaterialModule } from '../../Angular Material/material.module';
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
+import { Observable, map, shareReplay } from 'rxjs';
 
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [CommonModule],
+  imports: [NgIf, RouterLink, RouterOutlet, MaterialModule],
   templateUrl: './navbar.component.html',
-  styleUrl: './navbar.component.css'
+  styleUrls: ['./navbar.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class NavbarComponent {
-  constructor(public authService: AuthService, private router: Router) {}
+export class NavbarComponent implements OnInit {
+  isSidenavOpen = true;
+  title = 'Product Management';
+  isHandset: Observable<boolean>;
 
-  logout() {
+  constructor(
+    public authService: AuthService,
+    private router: Router,
+    private breakpointObserver: BreakpointObserver,
+    private cdr: ChangeDetectorRef
+  ) {
+    this.isHandset = this.breakpointObserver.observe(Breakpoints.Handset)
+      .pipe(
+        map(result => result.matches),
+        shareReplay()
+      );
+  }
+
+  ngOnInit(): void {
+    // Ensure that the observable updates are handled correctly
+    this.isHandset.subscribe(() => {
+      // Avoid triggering change detection manually here
+    });
+  }
+
+  logout(): void {
     this.authService.logout();
     this.router.navigate(['/login']);
   }

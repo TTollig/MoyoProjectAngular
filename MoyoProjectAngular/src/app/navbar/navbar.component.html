@@ -1,11 +1,43 @@
-<nav>
-    <ul>
-      <li *ngIf="!isAuthenticated"><a routerLink="/login">Login</a></li>
-      <li *ngIf="!isAuthenticated"><a routerLink="/register">Register</a></li>
-      <li *ngIf="isAuthenticated"><a routerLink="/product">Products</a></li>
-      <li *ngIf="isAuthenticated && (userRole === 'Manager' || userRole === 'Capturer')"><a routerLink="/createproduct">Create Product</a></li>
-      <li *ngIf="isAuthenticated && userRole === 'Manager'"><a routerLink="/manageproduct">Manage Products</a></li>
-      <li *ngIf="isAuthenticated"><a (click)="logout()">Logout</a></li>
-    </ul>
-  </nav>
-  
+<mat-sidenav-container class="sidenav-container">
+  <!-- Side Navigation for small screens -->
+  <mat-sidenav #sidenav class="sidenav" mode="over" [opened]="isHandset | async">
+    <nav>
+      <a routerLink="/home">
+        <img src="assets/m.png" class="logo-image" alt="Logo" loading="lazy">
+      </a>
+      <a mat-button class="sidenav-button" *ngIf="isAuthenticated" routerLink="/product"><mat-icon>inventory</mat-icon>Products</a>
+      <a mat-button class="sidenav-button" *ngIf="isAuthenticated && (userRole === 'Manager' || userRole === 'Capturer')" routerLink="/createproduct"><mat-icon>add_box</mat-icon>Create Product</a>
+      <a mat-button class="sidenav-button" *ngIf="isAuthenticated && userRole === 'Manager'" routerLink="/manageproduct"><mat-icon>manage_accounts</mat-icon>Manage Products</a>
+      <a mat-button class="sidenav-button" *ngIf="isAuthenticated" (click)="logout()"><mat-icon>logout</mat-icon>Logout</a>
+    </nav>
+  </mat-sidenav>
+
+  <!-- Main content -->
+  <mat-sidenav-content>
+    <mat-toolbar color="primary">
+      <!-- Toggle button for small screens -->
+      <button mat-icon-button (click)="sidenav.toggle()" *ngIf="isHandset | async">
+        <mat-icon>menu</mat-icon>
+      </button>
+      <!-- Logo -->
+      <a routerLink="/home">
+        <img src="assets/m.png" class="logo-image" alt="Logo" loading="lazy">
+      </a>
+      <span class="spacer"></span>
+      <!-- Toolbar content for large screens -->
+      <div class="toolbar-container" *ngIf="!(isHandset | async)">
+        <nav>
+          <a mat-button *ngIf="isAuthenticated" routerLink="/product"><mat-icon>inventory</mat-icon>Products</a>
+          <a mat-button *ngIf="isAuthenticated && (userRole === 'Manager' || userRole === 'Capturer')" routerLink="/createproduct"><mat-icon>add_box</mat-icon>Create Product</a>
+          <a mat-button *ngIf="isAuthenticated && userRole === 'Manager'" routerLink="/manageproduct"><mat-icon>manage_accounts</mat-icon>Manage Products</a>
+          <a mat-button *ngIf="isAuthenticated" (click)="logout()"><mat-icon>logout</mat-icon>Logout</a>
+        </nav>
+      </div>
+    </mat-toolbar>
+
+    <div class="content">
+      <router-outlet></router-outlet>
+      <!-- Your content -->
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>

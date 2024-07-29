@@ -1,1 +1,27 @@
-<p>create-product works!</p>
+<mat-card>
+    <h2>Create New Product</h2>
+    <form [formGroup]="productForm" (ngSubmit)="createProduct()">
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Product Name</mat-label>
+        <input matInput formControlName="name" matTooltip="Enter the name of the product.">
+        <mat-error *ngIf="productForm.get('name')?.invalid && (productForm.get('name')?.touched || productForm.dirty)">
+          <ng-container *ngIf="productForm.get('name')?.errors?.['required']">Product Name is required</ng-container>
+          <ng-container *ngIf="productForm.get('name')?.errors?.['minlength']">Product Name must be at least 2 characters long.</ng-container>
+        </mat-error>
+      </mat-form-field>
+      
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Product Description</mat-label>
+        <textarea matInput formControlName="description" matTooltip="Enter a description of the product."></textarea>
+        <mat-error *ngIf="productForm.get('description')?.invalid && (productForm.get('description')?.touched || productForm.dirty)">
+          <ng-container *ngIf="productForm.get('description')?.errors?.['required']">Product Description is required</ng-container>
+        </mat-error>
+      </mat-form-field>
+  
+      
+      
+      <button mat-raised-button color="primary" type="submit" matTooltip="Click to create a new product">Create Product</button>
+      <button mat-raised-button color="warn" type="button" (click)="onCancel()" style="float: right;" matTooltip="Back to products page">Products Page</button>
+    </form>
+  </mat-card>
+  

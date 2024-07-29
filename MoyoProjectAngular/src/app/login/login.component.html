@@ -1,16 +1,45 @@
-<div>
-    <h2>Login</h2>
-    <form (ngSubmit)="login()">
-      <div>
-        <label>Email</label>
-        <input type="email" [(ngModel)]="model.email" name="email" required />
-      </div>
-      <div>
-        <label>Password</label>
-        <input type="password" [(ngModel)]="model.password" name="password" required />
-      </div>
-      <button type="submit">Login</button>
-    </form>
-    <button (click)="loginWithGitHub()">Login with GitHub</button>
-  </div>
+
   
+  <div class="login-container">
+    <mat-card class="login-card">
+      <mat-card-header>
+        <mat-card-title class="logintext" >Login</mat-card-title>
+
+      </mat-card-header>
+      <mat-card-content>        
+      <hr>
+  
+        <form  (ngSubmit)="login()">
+  
+          <mat-form-field appearance="fill" class="full-width">
+            <mat-label>Username</mat-label>
+              <input matInput type="text" name="Email"  [(ngModel)]="model.email" >
+            </mat-form-field> 
+  
+            <mat-form-field appearance="fill" class="full-width">
+              <mat-label>Password</mat-label>
+              <input matInput [type]="hide ? 'password' : 'text'" name="Password"  [(ngModel)]="model.password" name="password" >
+              <button mat-icon-button matSuffix type="button" (click)="hide = !hide" [attr.aria-label]="hide ? 'Show password' : 'Hide password'" [attr.aria-pressed]="hide">
+                <mat-icon>{{ hide ? 'visibility_off' : 'visibility' }}</mat-icon>
+              </button>
+            </mat-form-field>
+            
+            
+          <div class="container-flex">
+            <button mat-raised-button color="primary" type="submit" class="loginbtn" >Login</button>
+            <button mat-raised-button color="primary"  style="margin-top: 2%;" class="githublogin" (click)="loginWithGitHub()" >Login with GitHub</button>  
+          </div>
+  
+          <div >
+          
+            <span><img src="assets/lighthouseicon.png" class="login-image" loading="lazy" alt="Lighthouse Icon"></span>
+            
+          </div>
+  
+        </form>
+      </mat-card-content>
+    </mat-card>
+
+
+    
+  </div>
