@@ -77,7 +77,7 @@ export class ProductListComponent implements OnInit {
         () => {
           this.editProductId = null;
           delete this.editedProduct[productId];
-          this.loadApprovedProducts(); // Reload the list to reflect changes
+          this.loadApprovedProducts(); 
         },
         (error) => {
           console.error('Error updating product:', error);

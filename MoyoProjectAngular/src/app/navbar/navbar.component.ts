@@ -33,9 +33,7 @@ export class NavbarComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // Ensure that the observable updates are handled correctly
     this.isHandset.subscribe(() => {
-      // Avoid triggering change detection manually here
     });
   }
 
