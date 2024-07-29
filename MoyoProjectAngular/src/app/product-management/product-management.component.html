@@ -1,1 +1,100 @@
-<p>product-management works!</p>
+<h1>Product Management</h1>
+
+<mat-tab-group>
+  <!-- Approved Products Tab -->
+  <mat-tab label="Approved Products">
+    <div class="product-section approved-products">
+      <h2>Approved Products</h2>
+      <div class="mat-elevation-z8">
+        <mat-form-field class="filter-input" matTooltip="Type to search products.">
+          <mat-label>Search</mat-label>
+          <input matInput (keyup)="applyFilter($event, dataSourceApproved)" placeholder="Search products">
+        </mat-form-field>
+        <table mat-table [dataSource]="dataSourceApproved" class="mat-table" matSort>
+          <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef> Name </th>
+            <td mat-cell *matCellDef="let product"> {{product.name}} </td>
+          </ng-container>
+          <ng-container matColumnDef="description">
+            <th mat-header-cell *matHeaderCellDef> Description </th>
+            <td mat-cell *matCellDef="let product"> {{product.description}} </td>
+          </ng-container>
+          <ng-container matColumnDef="actions">
+            <th mat-header-cell *matHeaderCellDef> Actions </th>
+            <td mat-cell *matCellDef="let product">
+              <button mat-raised-button (click)="removeProduct(product.id)" color="warn">Remove</button>
+            </td>
+          </ng-container>
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+        <mat-paginator #paginatorApproved [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+      </div>
+    </div>
+  </mat-tab>
+
+  <!-- Unassigned Products Tab -->
+  <mat-tab label="Unassigned Products">
+    <div class="product-section unassigned-products">
+      <h2>Unassigned Products</h2>
+      <div class="mat-elevation-z8">
+        <mat-form-field class="filter-input" matTooltip="Type to search products.">
+          <mat-label>Search</mat-label>
+          <input matInput (keyup)="applyFilter($event, dataSourceCreated)" placeholder="Search products">
+        </mat-form-field>
+        <table mat-table [dataSource]="dataSourceCreated" class="mat-table" matSort>
+          <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef> Name </th>
+            <td mat-cell *matCellDef="let product"> {{product.name}} </td>
+          </ng-container>
+          <ng-container matColumnDef="description">
+            <th mat-header-cell *matHeaderCellDef> Description </th>
+            <td mat-cell *matCellDef="let product"> {{product.description}} </td>
+          </ng-container>
+          <ng-container matColumnDef="actions">
+            <th mat-header-cell *matHeaderCellDef> Actions </th>
+            <td mat-cell *matCellDef="let product">
+              <button mat-raised-button (click)="approveProduct(product.id)" color="primary">Approve</button>
+              <button mat-raised-button (click)="removeProduct(product.id)" color="warn">Remove</button>
+            </td>
+          </ng-container>
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+        <mat-paginator #paginatorCreated [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+      </div>
+    </div>
+  </mat-tab>
+
+  <!-- Deleted Products Tab -->
+  <mat-tab label="Deleted Products">
+    <div class="product-section deleted-products">
+      <h2>Deleted Products</h2>
+      <div class="mat-elevation-z8">
+        <mat-form-field class="filter-input" matTooltip="Type to search products.">
+          <mat-label>Search</mat-label>
+          <input matInput (keyup)="applyFilter($event, dataSourceDeleted)" placeholder="Search products">
+        </mat-form-field>
+        <table mat-table [dataSource]="dataSourceDeleted" class="mat-table" matSort>
+          <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef> Name </th>
+            <td mat-cell *matCellDef="let product"> {{product.name}} </td>
+          </ng-container>
+          <ng-container matColumnDef="description">
+            <th mat-header-cell *matHeaderCellDef> Description </th>
+            <td mat-cell *matCellDef="let product"> {{product.description}} </td>
+          </ng-container>
+          <ng-container matColumnDef="actions">
+            <th mat-header-cell *matHeaderCellDef> Actions </th>
+            <td mat-cell *matCellDef="let product">
+              <button mat-raised-button (click)="approveProduct(product.id)" color="primary">Approve</button>
+            </td>
+          </ng-container>
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+        <mat-paginator #paginatorDeleted [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+      </div>
+    </div>
+  </mat-tab>
+</mat-tab-group>
