@@ -18,20 +18,27 @@ export class ProductManagementComponent implements OnInit {
   approvedProducts: any[] = [];
   createdProducts: any[] = [];
   deletedProducts: any[] = [];
+  productsWithEdits: any[] = [];
 
   displayedColumns: string[] = ['name', 'description', 'actions'];
+  displayedColumnsEdits: string[] = ['name', 'description', 'edits'];
+  
   dataSourceApproved!: MatTableDataSource<any>;
   dataSourceCreated!: MatTableDataSource<any>;
   dataSourceDeleted!: MatTableDataSource<any>;
+  dataSourceEdits!: MatTableDataSource<any>;
 
   @ViewChild('paginatorApproved') paginatorApproved!: MatPaginator;
   @ViewChild('paginatorCreated') paginatorCreated!: MatPaginator;
   @ViewChild('paginatorDeleted') paginatorDeleted!: MatPaginator;
+  @ViewChild('paginatorEdits') paginatorEdits!: MatPaginator;
   @ViewChild('sortApproved') sortApproved: MatSort = new MatSort();
   @ViewChild('sortCreated') sortCreated: MatSort = new MatSort();
   @ViewChild('sortDeleted') sortDeleted: MatSort = new MatSort();
+  @ViewChild('sortEdits') sortEdits: MatSort = new MatSort();
 
   private apiUrl = 'https://localhost:5001/api/product';
+  private editUrl = 'https://localhost:5001/api/editproduct';
 
   constructor(private http: HttpClient) {}
 
@@ -39,6 +46,7 @@ export class ProductManagementComponent implements OnInit {
     this.loadApprovedProducts();
     this.loadCreatedProducts();
     this.loadDeletedProducts();
+    this.loadProductsWithEdits();
   }
 
   loadApprovedProducts() {
@@ -83,6 +91,20 @@ export class ProductManagementComponent implements OnInit {
     );
   }
 
+  loadProductsWithEdits() {
+    this.http.get<any[]>(`${this.editUrl}/GetProductsWithEdits`).subscribe(
+      (data: any[]) => {
+        this.productsWithEdits = data;
+        this.dataSourceEdits = new MatTableDataSource(this.productsWithEdits);
+        this.dataSourceEdits.paginator = this.paginatorEdits;
+        this.dataSourceEdits.sort = this.sortEdits;
+      },
+      (error) => {
+        console.error('Error fetching products with edits:', error);
+      }
+    );
+  }
+
   approveProduct(productId: number) {
     const statusPayload = { status: "Approved" };
     this.http.put<void>(`${this.apiUrl}/UpdateProductStatus/${productId}/status`, statusPayload).subscribe(
@@ -96,7 +118,7 @@ export class ProductManagementComponent implements OnInit {
       }
     );
   }
-  
+
   removeProduct(productId: number) {
     const statusPayload = { status: "Deleted" };
     this.http.put<void>(`${this.apiUrl}/UpdateProductStatus/${productId}/status`, statusPayload).subscribe(
@@ -110,15 +132,35 @@ export class ProductManagementComponent implements OnInit {
       }
     );
   }
-  
+
+  acceptEdit(productId: number, editProductId: number) {
+    this.http.post<void>(`${this.editUrl}/ApplyUpdateProduct`, { productId, editProductId }).subscribe(
+      () => {
+        this.loadProductsWithEdits();
+      },
+      (error) => {
+        console.error('Error accepting edit:', error);
+      }
+    );
+  }
+
+  rejectEdit(editProductId: number) {
+    this.http.delete<void>(`${this.editUrl}/DeleteEditProduct/${editProductId}`).subscribe(
+      () => {
+        this.loadProductsWithEdits();
+      },
+      (error) => {
+        console.error('Error rejecting edit:', error);
+      }
+    );
+  }
 
   applyFilter(event: Event, dataSource: MatTableDataSource<any>) {
     const filterValue = (event.target as HTMLInputElement).value;
     dataSource.filter = filterValue.trim().toLowerCase();
-  
+
     if (dataSource.paginator) {
       dataSource.paginator.firstPage();
     }
   }
-  
 }

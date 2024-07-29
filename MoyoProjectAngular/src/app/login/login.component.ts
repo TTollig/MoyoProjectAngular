@@ -19,7 +19,7 @@ export class LoginComponent implements OnInit {
 
   ngOnInit(): void {
     this.authService.logout();
-    this.authService.handleGitHubCallback(); // Handle GitHub callback on initialization
+    this.authService.handleGitHubCallback(); 
   }
 
   login() {

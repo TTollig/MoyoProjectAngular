@@ -97,4 +97,61 @@
       </div>
     </div>
   </mat-tab>
+
+  <!-- Manage Product Edits -->
+<mat-tab label="Manage Product Edits">
+    <div class="product-section manage-product-edits">
+      <h2>Manage Product Edits</h2>
+      <div class="mat-elevation-z8">
+        <mat-form-field class="filter-input" matTooltip="Type to search products.">
+          <mat-label>Search</mat-label>
+          <input matInput (keyup)="applyFilter($event, dataSourceEdits)" placeholder="Search products">
+        </mat-form-field>
+        <table mat-table [dataSource]="dataSourceEdits" class="mat-table" matSort>
+          <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef> Name </th>
+            <td mat-cell *matCellDef="let product"> {{product.name}} </td>
+          </ng-container>
+          <ng-container matColumnDef="description">
+            <th mat-header-cell *matHeaderCellDef> Description </th>
+            <td mat-cell *matCellDef="let product"> {{product.description}} </td>
+          </ng-container>
+          <ng-container matColumnDef="edits">
+            <th mat-header-cell *matHeaderCellDef> Edits </th>
+            <td mat-cell *matCellDef="let product">
+              <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                  <mat-panel-title>
+                    Edits for {{product.name}}
+                  </mat-panel-title>
+                </mat-expansion-panel-header>
+                <table mat-table [dataSource]="product.editProducts" class="mat-table">
+                  <ng-container matColumnDef="editName">
+                    <th mat-header-cell *matHeaderCellDef> Edit Name </th>
+                    <td mat-cell *matCellDef="let edit"> {{edit.name}} </td>
+                  </ng-container>
+                  <ng-container matColumnDef="editDescription">
+                    <th mat-header-cell *matHeaderCellDef> Edit Description </th>
+                    <td mat-cell *matCellDef="let edit"> {{edit.description}} </td>
+                  </ng-container>
+                  <ng-container matColumnDef="actions">
+                    <th mat-header-cell *matHeaderCellDef> Actions </th>
+                    <td mat-cell *matCellDef="let edit">
+                      <button mat-raised-button (click)="acceptEdit(product.id, edit.id)" color="primary">Accept Edit</button>
+                      <button mat-raised-button (click)="rejectEdit(edit.id)" color="warn">Reject Edit</button>
+                    </td>
+                  </ng-container>
+                  <tr mat-header-row *matHeaderRowDef="['editName', 'editDescription', 'actions']"></tr>
+                  <tr mat-row *matRowDef="let row; columns: ['editName', 'editDescription', 'actions']"></tr>
+                </table>
+              </mat-expansion-panel>
+            </td>
+          </ng-container>
+          <tr mat-header-row *matHeaderRowDef="displayedColumnsEdits"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumnsEdits;"></tr>
+        </table>
+        <mat-paginator #paginatorEdits [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+      </div>
+    </div>
+  </mat-tab>
 </mat-tab-group>

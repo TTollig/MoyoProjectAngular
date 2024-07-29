@@ -41,7 +41,7 @@
           <button mat-raised-button (click)="startEdit(product.id)" style="color: rgb(17, 194, 17); margin-right: 10px;" matTooltip="Click to edit the selected product">Edit</button>
         </ng-container>
         <ng-template #editActions>
-          <button mat-raised-button (click)="saveProduct(product.id)" [disabled]="!editedProduct[product.id].name || !editedProduct[product.id].description" style="color: rgb(0, 183, 255); margin-right: 10px;" matTooltip="Click to save changes">Save</button>
+          <button mat-raised-button (click)="saveProduct(product.id)" [disabled]="!editedProduct[product.id].name || !editedProduct[product.id].description" style="color: rgb(0, 183, 255); margin-right: 10px;" matTooltip="Send to the manager to approve the edit you made">Send for Approval</button>
           <button mat-raised-button (click)="cancelEdit(product.id)" style="color: orange;" matTooltip="Click to cancel changes">Cancel</button>
         </ng-template>
       </td>
