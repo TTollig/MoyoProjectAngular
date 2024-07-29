@@ -1,5 +1,5 @@
 <mat-sidenav-container class="sidenav-container">
-  <!-- Side Navigation for small screens -->
+  <!-- Side Nav -->
   <mat-sidenav #sidenav class="sidenav" mode="over" [opened]="isHandset | async">
     <nav>
       <a routerLink="/home">
@@ -12,19 +12,19 @@
     </nav>
   </mat-sidenav>
 
-  <!-- Main content -->
+  <!-- Main Nav -->
   <mat-sidenav-content>
     <mat-toolbar color="primary">
-      <!-- Toggle button for small screens -->
+      
       <button mat-icon-button (click)="sidenav.toggle()" *ngIf="isHandset | async">
         <mat-icon>menu</mat-icon>
       </button>
-      <!-- Logo -->
+      
       <a routerLink="/home">
         <img src="assets/m.png" class="logo-image" alt="Logo" loading="lazy">
       </a>
       <span class="spacer"></span>
-      <!-- Toolbar content for large screens -->
+      
       <div class="toolbar-container" *ngIf="!(isHandset | async)">
         <nav>
           <a mat-button *ngIf="isAuthenticated" routerLink="/product"><mat-icon>inventory</mat-icon>Products</a>
@@ -37,7 +37,6 @@
 
     <div class="content">
       <router-outlet></router-outlet>
-      <!-- Your content -->
     </div>
   </mat-sidenav-content>
 </mat-sidenav-container>
