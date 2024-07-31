@@ -13,5 +13,6 @@ export const routes: Routes = [
   { path: 'product', component: ProductListComponent, canActivate: [authGuard], data: { role: ['Manager', 'Capturer'] } },
   { path: 'createproduct', component: CreateProductComponent, canActivate: [authGuard], data: { role: ['Manager', 'Capturer'] } },
   { path: 'manageproduct', component: ProductManagementComponent, canActivate: [authGuard], data: { role: ['Manager'] } },
+  { path: 'register', component: RegisterComponent, canActivate: [authGuard], data: { role: ['Manager'] } },
   { path: '**', redirectTo: 'login'}
 ];

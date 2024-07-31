@@ -8,6 +8,7 @@
       <a mat-button class="sidenav-button" *ngIf="isAuthenticated" routerLink="/product"><mat-icon>inventory</mat-icon>Products</a>
       <a mat-button class="sidenav-button" *ngIf="isAuthenticated && (userRole === 'Manager' || userRole === 'Capturer')" routerLink="/createproduct"><mat-icon>add_box</mat-icon>Create Product</a>
       <a mat-button class="sidenav-button" *ngIf="isAuthenticated && userRole === 'Manager'" routerLink="/manageproduct"><mat-icon>manage_accounts</mat-icon>Manage Products</a>
+      <a mat-button class="sidenav-button" *ngIf="isAuthenticated && userRole === 'Manager'" routerLink="/register"><mat-icon>register</mat-icon>Register New User</a>
       <a mat-button class="sidenav-button" *ngIf="isAuthenticated" (click)="logout()"><mat-icon>logout</mat-icon>Logout</a>
     </nav>
   </mat-sidenav>
@@ -30,6 +31,7 @@
           <a mat-button *ngIf="isAuthenticated" routerLink="/product"><mat-icon>inventory</mat-icon>Products</a>
           <a mat-button *ngIf="isAuthenticated && (userRole === 'Manager' || userRole === 'Capturer')" routerLink="/createproduct"><mat-icon>add_box</mat-icon>Create Product</a>
           <a mat-button *ngIf="isAuthenticated && userRole === 'Manager'" routerLink="/manageproduct"><mat-icon>manage_accounts</mat-icon>Manage Products</a>
+          <a mat-button *ngIf="isAuthenticated && userRole === 'Manager'" routerLink="/register"><mat-icon>person_add</mat-icon>Register New User</a>
           <a mat-button *ngIf="isAuthenticated" (click)="logout()"><mat-icon>logout</mat-icon>Logout</a>
         </nav>
       </div>

@@ -2,16 +2,20 @@ import { Component } from '@angular/core';
 import { AuthService } from '../auth.service';
 import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { MaterialModule } from '../../Angular Material/material.module';
+import { MatCardModule } from '@angular/material/card';
 
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [FormsModule],
+  imports: [CommonModule, FormsModule, MaterialModule, MatCardModule],
   templateUrl: './register.component.html',
-  styleUrl: './register.component.css'
+  styleUrls: ['./register.component.css']
 })
 export class RegisterComponent {
   model: any = {};
+  hide: boolean = true; // Added to control password visibility
 
   constructor(private authService: AuthService, private router: Router) {}
 
