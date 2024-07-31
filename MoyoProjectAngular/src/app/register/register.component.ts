@@ -15,14 +15,14 @@ import { MatCardModule } from '@angular/material/card';
 })
 export class RegisterComponent {
   model: any = {};
-  hide: boolean = true; // Added to control password visibility
+  hide: boolean = true; 
 
   constructor(private authService: AuthService, private router: Router) {}
 
   register() {
     this.authService.register(this.model).subscribe(
       response => {
-        this.router.navigate(['/login']);
+        this.router.navigate(['/product']);
       },
       error => {
         console.log(error);
